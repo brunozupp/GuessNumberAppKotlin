@@ -17,6 +17,7 @@ fun Display(
     attemptsLeft: Int,
     winTheGame: Boolean?,
     playAgain: () -> Unit,
+    wrongAttempts: List<Int>,
 ) {
     Box(
         modifier = modifier
@@ -35,10 +36,12 @@ fun Display(
                     attemptsLeft = attemptsLeft,
                     playAgain = playAgain,
                     numberToGuess = numberToGuess,
+                    wrongAttempts = wrongAttempts,
                 )
                 false -> DisplayLose(
                     numberToGuess = numberToGuess,
                     playAgain = playAgain,
+                    wrongAttempts = wrongAttempts,
                 )
                 null -> DisplayGame(attemptsLeft = attemptsLeft)
             }

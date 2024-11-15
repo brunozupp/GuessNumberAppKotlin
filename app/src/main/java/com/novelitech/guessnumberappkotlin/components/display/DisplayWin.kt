@@ -22,7 +22,15 @@ fun DisplayWin(
     numberToGuess: Int,
     attemptsLeft: Int,
     playAgain: () -> Unit,
+    wrongAttempts: List<Int>,
 ) {
+
+    val infoWrongAttempts: String = if(wrongAttempts.isEmpty()) {
+        "no wrong attempt"
+    } else {
+        wrongAttempts.joinToString(", ")
+    }
+
     Column(
         modifier = modifier
             .fillMaxWidth(),
@@ -47,6 +55,7 @@ fun DisplayWin(
         Spacer(modifier = Modifier.size(24.dp))
         Text(text = "The guessing number was $numberToGuess.")
         Text(text = "You have $attemptsLeft left attempts.")
+        Text(text = "Wrong attempts: $infoWrongAttempts")
         Spacer(modifier = Modifier.size(24.dp))
         Button(
             onClick = playAgain,

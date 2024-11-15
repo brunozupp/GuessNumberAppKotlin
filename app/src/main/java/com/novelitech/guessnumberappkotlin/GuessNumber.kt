@@ -77,7 +77,8 @@ fun GuessNumber(modifier: Modifier = Modifier) {
                 numberToGuess = numberToGuess,
                 playAgain = {
                     playAgain()
-                }
+                },
+                wrongAttempts = wrongAttempts,
             )
 
             // This implies that, all composables with the weight modifier added to them will only

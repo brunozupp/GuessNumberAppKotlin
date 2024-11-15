@@ -20,6 +20,7 @@ fun DisplayLose(
     modifier: Modifier = Modifier,
     numberToGuess: Int,
     playAgain: () -> Unit,
+    wrongAttempts: List<Int>,
 ) {
     Column(
         modifier = modifier
@@ -44,6 +45,7 @@ fun DisplayLose(
         )
         Spacer(modifier = Modifier.size(24.dp))
         Text(text = "The guessing number was $numberToGuess.")
+        Text(text = "Wrong attempts: ${wrongAttempts.joinToString(", ")}")
         Spacer(modifier = Modifier.size(24.dp))
         Button(
             onClick = playAgain,
