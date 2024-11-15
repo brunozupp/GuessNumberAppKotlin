@@ -2,7 +2,6 @@ package com.novelitech.guessnumberappkotlin
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
@@ -16,8 +15,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import com.novelitech.guessnumberappkotlin.components.BoxNumber
-import com.novelitech.guessnumberappkotlin.components.DisplayInformation
+import com.novelitech.guessnumberappkotlin.components.display.Display
 import com.novelitech.guessnumberappkotlin.components.KeyboardGuessNumbers
 import kotlinx.coroutines.launch
 import kotlin.random.Random
@@ -27,7 +25,7 @@ fun GuessNumber(modifier: Modifier = Modifier) {
 
     // Here I don't delegate the setter/getter to anyone by using the 'by' keyword because
     // I just want to use it to read and save its value when rendering the page
-    val numberToGuess = remember {
+    var numberToGuess = remember {
         Random.nextInt(1, 7)
     }
 
@@ -61,9 +59,14 @@ fun GuessNumber(modifier: Modifier = Modifier) {
             // add weight modifier to the component composable to ensure
             // that the composable is measured after the other
             // composable is measured.
-            DisplayInformation(
+            Display(
                 modifier = Modifier.weight(weight = 1.0f, fill = true),
-                attemptsLeft = attemptsLeft
+                attemptsLeft = attemptsLeft,
+                winTheGame = winTheGame,
+                numberToGuess = numberToGuess,
+                playAgain = {
+
+                }
             )
 
             // This implies that, all composables with the weight modifier added to them will only
@@ -114,5 +117,9 @@ fun GuessNumber(modifier: Modifier = Modifier) {
         }
     }
 
-
+    fun playAgain() {
+        winTheGame = null
+        attemptsLeft = 3
+        numberToGuess = Random.nextInt(1, 7)
+    }
 }
