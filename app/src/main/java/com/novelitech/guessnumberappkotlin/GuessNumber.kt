@@ -46,6 +46,14 @@ fun GuessNumber(modifier: Modifier = Modifier) {
 
     println("The number I need to guess is $numberToGuess")
 
+    fun playAgain() {
+        winTheGame = null
+        attemptsLeft = 3
+        numberToGuess = Random.nextInt(1, 7)
+
+        println("The new Guessing Number is $numberToGuess")
+    }
+
     Scaffold(
         modifier = modifier
             .background(Color.White),
@@ -65,7 +73,7 @@ fun GuessNumber(modifier: Modifier = Modifier) {
                 winTheGame = winTheGame,
                 numberToGuess = numberToGuess,
                 playAgain = {
-
+                    playAgain()
                 }
             )
 
@@ -117,9 +125,5 @@ fun GuessNumber(modifier: Modifier = Modifier) {
         }
     }
 
-    fun playAgain() {
-        winTheGame = null
-        attemptsLeft = 3
-        numberToGuess = Random.nextInt(1, 7)
-    }
+
 }
