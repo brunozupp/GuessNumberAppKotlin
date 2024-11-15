@@ -39,6 +39,8 @@ fun GuessNumber(modifier: Modifier = Modifier) {
         mutableStateOf<Boolean?>(null)
     }
 
+    val wrongAttempts = mutableListOf<Int>()
+
     // Variables responsible for the Snackbar
 
     val snackbarHostState = remember { SnackbarHostState() }
@@ -50,6 +52,7 @@ fun GuessNumber(modifier: Modifier = Modifier) {
         winTheGame = null
         attemptsLeft = 3
         numberToGuess = Random.nextInt(1, 7)
+        wrongAttempts.clear()
 
         println("The new Guessing Number is $numberToGuess")
     }
@@ -83,7 +86,13 @@ fun GuessNumber(modifier: Modifier = Modifier) {
             // buttons) will be calculated first, so just the remaining height will be take in
             // consideration when calculating the measures in the weighted compasables
             KeyboardGuessNumbers(
+                wrongAttempts = wrongAttempts,
+                winTheGame = winTheGame,
                 onTap = { number ->
+
+                    if(winTheGame != null) {
+                        return@KeyboardGuessNumbers
+                    }
 
                     attemptsLeft -= 1
 
@@ -98,6 +107,8 @@ fun GuessNumber(modifier: Modifier = Modifier) {
 
                         winTheGame = true
                     } else {
+
+                        wrongAttempts.add(number)
 
                         if(attemptsLeft > 0) {
 

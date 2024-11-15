@@ -1,5 +1,6 @@
 package com.novelitech.guessnumberappkotlin.components
 
+import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -20,16 +21,21 @@ fun BoxNumber(
     modifier: Modifier = Modifier,
     number: Int,
     onTap: (value: Int) -> Unit,
+    applyOpacity: Boolean = false,
+    disabled: Boolean = false,
 ) {
     Box(
         modifier = modifier
             .height(150.dp)
             .background(Color(0xFFe3e1de))
+            .background(Color.Black.copy(alpha = if (applyOpacity) 0.7f else 0.0f))
             .border(
                 width = 1.dp,
                 Color.Black,
             )
-            .clickable {
+            .clickable(
+                enabled = !disabled,
+            ) {
                 onTap(number)
             }
     ) {
