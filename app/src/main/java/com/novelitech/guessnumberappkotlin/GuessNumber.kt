@@ -7,8 +7,10 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -39,7 +41,10 @@ fun GuessNumber(modifier: Modifier = Modifier) {
         mutableStateOf<Boolean?>(null)
     }
 
-    val wrongAttempts = mutableListOf<Int>()
+    // val wrongAttempts = mutableListOf<Int>()
+    val wrongAttempts = remember {
+        mutableStateListOf<Int>()
+    }
 
     // Variables responsible for the Snackbar
 
@@ -55,6 +60,34 @@ fun GuessNumber(modifier: Modifier = Modifier) {
         wrongAttempts.clear()
 
         println("The new Guessing Number is $numberToGuess")
+    }
+
+    LaunchedEffect(winTheGame) {
+
+        when(winTheGame) {
+            true -> {
+                snackbarHostState.showSnackbar(
+                    "You guessed correct. Number $numberToGuess is the guessing number.",
+                    withDismissAction = true,
+                )
+            }
+            false -> {
+                snackbarHostState.showSnackbar(
+                    "All your attempts were used, you LOST.",
+                    withDismissAction = true,
+                )
+            }
+            null -> { }
+        }
+    }
+
+    LaunchedEffect(key1 = attemptsLeft) {
+        if(attemptsLeft > 0 && winTheGame == null && wrongAttempts.isNotEmpty()) {
+            snackbarHostState.showSnackbar(
+                "You didn't guess the correct one, try again. $attemptsLeft attempts is left.",
+                withDismissAction = true,
+            )
+        }
     }
 
     Scaffold(
@@ -98,39 +131,27 @@ fun GuessNumber(modifier: Modifier = Modifier) {
                     attemptsLeft -= 1
 
                     if(number == numberToGuess) {
-
-                        scope.launch {
-                            snackbarHostState.showSnackbar(
-                                "You guessed correct. Number $numberToGuess is the guessing number.",
-                                withDismissAction = true,
-                            )
-                        }
-
                         winTheGame = true
                     } else {
 
                         wrongAttempts.add(number)
 
-                        if(attemptsLeft > 0) {
-
-                            scope.launch {
-                                snackbarHostState.showSnackbar(
-                                    "You didn't guess the correct one, try again. $attemptsLeft attempts is left.",
-                                    withDismissAction = true,
-                                )
-                            }
-
-                        } else {
-
-                            scope.launch {
-                                snackbarHostState.showSnackbar(
-                                    "All your attempts were used, you LOST.",
-                                    withDismissAction = true,
-                                )
-                            }
-
+                        if(attemptsLeft <= 0) {
                             winTheGame = false
                         }
+
+//                        if(attemptsLeft > 0) {
+//
+//                            scope.launch {
+//                                snackbarHostState.showSnackbar(
+//                                    "You didn't guess the correct one, try again. $attemptsLeft attempts is left.",
+//                                    withDismissAction = true,
+//                                )
+//                            }
+//
+//                        } else {
+//                            winTheGame = false
+//                        }
                     }
                 }
             )
