@@ -27,8 +27,8 @@ fun GuessNumber(modifier: Modifier = Modifier) {
 
     // Here I don't delegate the setter/getter to anyone by using the 'by' keyword because
     // I just want to use it to read and save its value when rendering the page
-    var numberToGuess = remember {
-        Random.nextInt(1, 7)
+    var numberToGuess by remember {
+        mutableIntStateOf(Random.nextInt(1, 7))
     }
 
     // Here I delegate the setter/getter to the remember because it will be the responsible for
