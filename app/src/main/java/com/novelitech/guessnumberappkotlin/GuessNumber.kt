@@ -41,15 +41,12 @@ fun GuessNumber(modifier: Modifier = Modifier) {
         mutableStateOf<Boolean?>(null)
     }
 
-    // val wrongAttempts = mutableListOf<Int>()
     val wrongAttempts = remember {
         mutableStateListOf<Int>()
     }
 
-    // Variables responsible for the Snackbar
-
+    // Variable responsible for the Snackbar
     val snackbarHostState = remember { SnackbarHostState() }
-    val scope = rememberCoroutineScope()
 
     println("The number I need to guess is $numberToGuess")
 
@@ -139,19 +136,6 @@ fun GuessNumber(modifier: Modifier = Modifier) {
                         if(attemptsLeft <= 0) {
                             winTheGame = false
                         }
-
-//                        if(attemptsLeft > 0) {
-//
-//                            scope.launch {
-//                                snackbarHostState.showSnackbar(
-//                                    "You didn't guess the correct one, try again. $attemptsLeft attempts is left.",
-//                                    withDismissAction = true,
-//                                )
-//                            }
-//
-//                        } else {
-//                            winTheGame = false
-//                        }
                     }
                 }
             )
